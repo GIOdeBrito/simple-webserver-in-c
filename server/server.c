@@ -94,7 +94,7 @@ void server_listen (int srv_socket)
     }
 
     // Converts and store an IP address to a string
-    char * client_from = inet_ntoa(client_address.sin_addr);
+    char* client_from = inet_ntoa(client_address.sin_addr);
     // Converts from network to host
     int client_port = ntohs(client_address.sin_port);
     printf("Accepted connection from %s, PORT: %d \n", client_from, client_port);
@@ -114,7 +114,6 @@ void request (int client_socket)
 
     strcpy(res, success);
     strcat(res, html);
-    printf("%s", html);
     free(html);
 
     send(client_socket, res, sizeof(res), 0);
