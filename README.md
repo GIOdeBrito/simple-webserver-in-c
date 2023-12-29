@@ -11,18 +11,18 @@ Fork or manually copy the repository. And attend to the requirements below.
 
 First one must first use a Linux operating system, as it is currently hard-coded for it to work only on Linux
 
-#### Requirements
+## Requirements
 - A machine running a Linux system
 - The GNU C Compiler
 
-#### Build and Run 
+## Build and Run 
 
 ```bash
   gcc server.c -o server
   ./server
 ```
 
-### Testing
+## Testing
 To check whether it is working or not, open your web browser on either localhost or 127.0.0.1 on Port 8080.
 
 
