@@ -48,5 +48,7 @@ and see if the web page can be properly received and rendered.
 
  - [A Guide To Using Network Sockets](https://www.gta.ufrj.br/ensino/eel878/sockets/)
  - [C Library](https://www.tutorialspoint.com/c_standard_library/stdio_h.htm)
+ - [Introdução ao Makefile](https://embarcados.com.br/introducao-ao-makefile/)
+ - [A Simple Makefile Tutorial](https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/)
 
 
