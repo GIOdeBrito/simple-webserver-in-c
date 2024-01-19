@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "global.h"
 
 // If the current system is a Linux OS
 #ifdef __linux__ 
@@ -9,21 +10,13 @@
     #define ARPA_IS_INCLUDED
 #endif
 
-#define PORT 8080
-
-// === FUNCTION PROTOTYPES ================================
-
-void server_start(void);
-void server_listen(int);
-void request(int);
-char* read_response_html(void);
-
 // === FUNCTIONS ==========================================
 
 int main (void)
 {
     #ifdef ARPA_IS_INCLUDED
-        printf("ARPA included.\nStarting server...\n\n");
+        printf("ARPA dependency included.\n");
+        printf("Starting server...\n\n");
         server_start();
     #else 
         #error "ARPA is not included."
@@ -104,21 +97,6 @@ void server_listen (int srv_socket)
     close(client_socket);
 }
 
-void request (int client_socket)
-{
-    char success[] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n"; 
-    char* html = read_response_html();
-
-    size_t response_len = strlen(success) + strlen(html) + 1;
-    char res[response_len];
-
-    strcpy(res, success);
-    strcat(res, html);
-    free(html);
-
-    send(client_socket, res, sizeof(res), 0);
-}
-
 char* read_response_html (void)
 {
     FILE* fhtml = fopen("response.html", "r");
@@ -149,4 +127,5 @@ char* read_response_html (void)
 
     return htmlcontent;
 }
+
 

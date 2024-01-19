@@ -16,21 +16,28 @@ Fork or manually copy the repository to your machine, or another. And attend to 
 
 ## Build and Run 
 
-Locate the folder where one can find the server .C file and build it using the GNU compiler.
+Locate the folder where one can find the server .C file and build the program with its makefile.
 
 ```bash
-  gcc server.c -o server
+  make
+```
+
+A few errors of unused variables might come, but you can simply ignore it.
+Alternatively, one can also build it manually using the GNU C Compiler.
+
+```bash
+  gcc server.c request.c -o server.g2
 ```
 
 Simple. After that, run the object created by the compiler and the server should prensently start and emerge on port 8080.
 
 ```bash
-  ./server
+  ./server.g2
 ```
 
 ## Testing
 To check whether it is working or not, open your web browser on either localhost:8080 or 127.0.0.1:8080<br>
-and see if the web page is properly received and rendered.
+and see if the web page can be properly received and rendered.
 
 
 ## The Author
