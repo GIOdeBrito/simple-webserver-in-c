@@ -35,17 +35,16 @@ char* read_file_server_request (char* filename)
 {
 	char filepath[256];
 
-	concatenate("../public", "/index.html", filepath, sizeof(filepath));
+	concatenate("../public/views", filename, filepath, sizeof(filepath));
 
-	printf("PATH: %s\n", filepath);
+	if(!file_exists(filepath))
+	{
+		strcpy(filepath, "../public/views/error.html");
+	}
+
+	printf("Requested file: %s\n", filepath);
 
 	FILE* fhtml = fopen(filepath, "r");
-
-	// If the file does not exists, send it to the error
-	if(fhtml == NULL)
-	{
-
-	}
 
     // Gets the file's size
     fseek(fhtml, 0, SEEK_END);

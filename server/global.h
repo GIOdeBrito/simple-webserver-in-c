@@ -9,6 +9,8 @@ typedef struct HTTP_request_struct
 	char architecture[32];
 } http_request_object;
 
+typedef enum boolean { false, true } bool;
+
 void server_start(void);
 void server_listen(int);
 
@@ -17,3 +19,4 @@ char* read_file_server_request(char*);
 http_request_object get_http_request_data(int);
 
 void concatenate(char*, char*, char*, size_t);
+bool file_exists(char*);
