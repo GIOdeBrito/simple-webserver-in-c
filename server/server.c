@@ -5,7 +5,7 @@
 #include "global.h"
 
 // If the current system is a Linux OS
-#ifdef __linux__ 
+#ifdef __linux__
     #include <arpa/inet.h>
     #define ARPA_IS_INCLUDED
 #endif
@@ -14,16 +14,19 @@
 
 int main (void)
 {
-    #ifdef ARPA_IS_INCLUDED
+	printf("Initializing GCC SIMPLE SERVER\n");
+
+	#ifdef ARPA_IS_INCLUDED
         printf("ARPA dependency included.\n");
         printf("Starting server...\n\n");
         server_start();
-    #else 
+    #else
         #error "ARPA is not included."
         exit(-1);
     #endif
 
     printf("\n\nShutting down...\n");
+
     return 0;
 }
 
@@ -31,6 +34,7 @@ void server_start (void)
 {
     // Attempts to create the server's socket
     int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+
     if(server_socket == -1)
     {
         perror("FAILED IN CREATING SERVER SOCKET");
@@ -48,6 +52,7 @@ void server_start (void)
 
     // Attemps to bind the server's socket
     int srv_socket_result = bind(server_socket, (struct sockaddr *)&server_address, server_len);
+
     if(srv_socket_result == -1)
     {
         perror("ERROR ON BINDING SERVER SOCKET");
@@ -58,7 +63,7 @@ void server_start (void)
     if(listen(server_socket, 10) == -1)
     {
         perror("SERVER ERROR WHEN ATTEMPTING TO LISTEN TO PORT:");
-        perror((char *)PORT);
+        perror((char*) PORT);
         exit(-4);
     }
 
@@ -70,6 +75,7 @@ void server_start (void)
     }
 
     close(server_socket);
+
     printf("Closing socket\n");
 }
 
@@ -79,7 +85,8 @@ void server_listen (int srv_socket)
     socklen_t client_len = sizeof(&client_address);
 
     // Accepts a connection from a client
-    int client_socket = accept(srv_socket, (struct sockaddr *)&client_address, &client_len);
+    int client_socket = accept(srv_socket, (struct sockaddr*) &client_address, &client_len);
+
     if(client_socket == -1)
     {
         perror("FAILED TO ACCEPT REQUEST FROM CLIENT");
@@ -90,42 +97,18 @@ void server_listen (int srv_socket)
     char* client_from = inet_ntoa(client_address.sin_addr);
     // Converts from network to host
     int client_port = ntohs(client_address.sin_port);
+
     printf("Accepted connection from %s, PORT: %d \n", client_from, client_port);
 
-    request(client_socket);
+	// Get a few information from the header of the request
+	http_request_object request_object = get_http_request_data(client_socket);
+
+	printf("OS: %s\n", request_object.os);
+	printf("Architecture: %s\n", request_object.architecture);
+
+    return_http_request(client_socket, request_object.filename);
 
     close(client_socket);
-}
-
-char* read_response_html (void)
-{
-    FILE* fhtml = fopen("response.html", "r");
-
-    // Gets the file's size
-    fseek(fhtml, 0, SEEK_END);
-    long f_size = ftell(fhtml);
-
-    // Set the file to initial position
-    fseek(fhtml, 0, SEEK_SET);
-
-    // Allocates enough memory to store the file's content
-    char* htmlcontent = (char*)malloc((f_size + 1) * sizeof(char));
-
-    if(htmlcontent == NULL)
-    {
-        perror("FAILED AT ALLOCATING MEMORY FOR FILE'S LENGTH");
-        exit(-6);
-    }
-
-    htmlcontent[0] = '\0';
-
-    // Read the file's content to a variable
-    size_t byte_read = fread(htmlcontent, 1, f_size, fhtml);
-    htmlcontent[f_size] = '\0';
-
-    fclose(fhtml);
-
-    return htmlcontent;
 }
 
 

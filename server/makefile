@@ -1,13 +1,13 @@
 
 # =========================================================
-# Makefile for the WebServer 
+# Makefile for the WebServer
 # =========================================================
 
-COMPILER = gcc 
+COMPILER = gcc
 CFLAGS = -Wall
 HEADER = global.h
 
-SOURCE = server.c request.c
+SOURCE = server.c request.c utility.c
 
 # Object files
 OBJ_DIR = objects
